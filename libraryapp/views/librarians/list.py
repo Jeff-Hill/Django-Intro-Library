@@ -9,7 +9,8 @@ def list_librarians(request):
     with sqlite3.connect(Connection.db_path) as conn:
         conn.row_factory = model_factory(Librarian)
         db_cursor = conn.cursor()
-
+    # Since the libraryapp_librarian table is one you created that extends the auth_user,
+    # when you build the views/librarians/list.py view, your SQL needs to join in the auth_user table.
         db_cursor.execute("""
         select
             l.id,
