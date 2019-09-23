@@ -1,3 +1,5 @@
+  {% extends 'shared/base.html' %}
+
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
@@ -6,6 +8,8 @@
     <title>Library</title>
   </head>
   <body>
+        {% block content %}
+
     <h1>Libraries</h1>
 {% comment %} Then your templates/librarians/list.html template will iterate the all_librarians key on the context dictionary. {% endcomment %}
     <ol>
@@ -14,5 +18,7 @@
         located at {{ library.address }}</li>
     {% endfor %}
     </ol>
+              {% endblock %}
+
   </body>
 </html>

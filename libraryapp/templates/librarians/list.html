@@ -1,3 +1,5 @@
+  {% extends 'shared/base.html' %}
+
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
@@ -6,6 +8,8 @@
     <title>Library</title>
   </head>
   <body>
+      {% block content %}
+
     <h1>Librarians</h1>
 
     <ol>
@@ -15,5 +19,7 @@
         </li>
     {% endfor %}
     </ol>
+          {% endblock %}
+
   </body>
 </html>

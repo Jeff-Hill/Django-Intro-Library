@@ -5,6 +5,7 @@ from libraryapp.models import Book
 from libraryapp.models import Library
 # from libraryapp.models import model_factory
 from ..connection import Connection
+from .details import get_book
 
 
 def get_libraries():
@@ -28,6 +29,23 @@ def book_form(request):
         libraries = get_libraries()
         template = 'books/form.html'
         context = {
+            'all_libraries': libraries
+        }
+
+        return render(request, template, context)
+
+# Now you need a view to handle that GET request and send the HTML form back to the client.
+# Add the following view function to the form.py module.
+@login_required
+def book_edit_form(request, book_id):
+
+    if request.method == 'GET':
+        book = get_book(book_id)
+        libraries = get_libraries()
+
+        template = 'books/form.html'
+        context = {
+            'book': book,
             'all_libraries': libraries
         }
 

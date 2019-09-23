@@ -6,24 +6,25 @@ from ..connection import Connection
 
 
 def list_librarians(request):
-    with sqlite3.connect(Connection.db_path) as conn:
-        conn.row_factory = model_factory(Librarian)
-        db_cursor = conn.cursor()
-    # Since the libraryapp_librarian table is one you created that extends the auth_user,
-    # when you build the views/librarians/list.py view, your SQL needs to join in the auth_user table.
-        db_cursor.execute("""
-        select
-            l.id,
-            l.location_id,
-            l.user_id,
-            u.first_name,
-            u.last_name,
-            u.email
-        from libraryapp_librarian l
-        join auth_user u on l.user_id = u.id
-        """)
+        with sqlite3.connect(Connection.db_path) as conn:
+            conn.row_factory = model_factory(Librarian)
+            db_cursor = conn.cursor()
+        # Since the libraryapp_librarian table is one you created that extends the auth_user,
+        # when you build the views/librarians/list.py view, your SQL needs to join in the auth_user table.
+            db_cursor.execute("""
+            select
+                l.id,
+                l.location_id,
+                l.user_id,
+                u.first_name,
+                u.last_name,
+                u.email
+            from libraryapp_librarian l
+            join auth_user u on l.user_id = u.id
+            """)
 
-        all_librarians = db_cursor.fetchall()
+            all_librarians = db_cursor.fetchall()
 
-    template_name = 'librarians/list.html'
-    return render(request, template_name, {'all_librarians': all_librarians})
+        template_name = 'librarians/list.html'
+        return render(request, template_name, {'all_librarians': all_librarians})
+

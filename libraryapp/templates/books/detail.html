@@ -1,3 +1,4 @@
+  {% extends 'shared/base.html' %}
 
 {% load staticfiles %}
 <!DOCTYPE html>
@@ -7,10 +8,29 @@
     <title>Library</title>
   </head>
   <body>
-    <h1>{{ book.title }}</h1>
-    <h2>By {{ book.author }}</h2>
+    {% block content %}
 
-    <div>Published in {{ book.year_published }}</div>
-    <div>ISBN: {{ book.isbn }}</div>
+    <section id="book-details">
+        <h1>{{ book.title }}</h1>
+        <h2>By {{ book.author }}</h2>
+
+        <div>Published in {{ book.year_published }}</div>
+        <div>ISBN: {{ book.isbn }}</div>
+    </section>
+
+    <section id="book-actions" style="display:flex;">
+        <form action="{% url 'libraryapp:book' book.id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="actual_method" value="DELETE">
+            <button>Delete</button>
+        </form>
+      {% comment %} This produces the following HTML for the Edit button. {% endcomment %}
+        <form action="{% url 'libraryapp:book_edit_form' book.id %}" method="GET">
+            {% csrf_token %}
+            <button>Edit</button>
+        </form>
+    </section>
+      {% endblock %}
+
   </body>
 </html>

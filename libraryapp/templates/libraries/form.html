@@ -1,29 +1,42 @@
+  {% extends 'shared/base.html' %}
 
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Bangazon</title>
+    <title>Library</title>
   </head>
   <body>
+      {% block content %}
+
     <h1>Inventory Library</h1>
 
 
-    <form action="{% url 'libraryapp:libraries' %}" method="POST">
-      {% csrf_token %}
-      <fieldset>
-          <label for="title">Title: </label>
-          <input id="title" type="text" name="title">
-      </fieldset>
-      <fieldset>
-          <label for="address">Address: </label>
-          <input id="address" type="text" name="address">
-      </fieldset>
+    {% if library.id is not None %}
+        <form action="{% url 'libraryapp:library' library.id %}" method="post">
+    {% else %}
+        <form action="{% url 'libraryapp:libraries' %}" method="post">
+    {% endif %}
+        {% csrf_token %}
+        <fieldset>
+            <label for="title">Title: </label>
+            <input id="title" type="text" name="title" value="{{ library.title }}">
+        </fieldset>
+        <fieldset>
+            <label for="address">Address: </label>
+            <input id="address" type="text" name="address" value="{{ library.address }}">
+        </fieldset>
 
-      </fieldset>
+        {% if library.id is not None %}
+            <input type="hidden" name="actual_method" value="PUT">
+            <input type="submit" value="Update" />
+        {% else %}
+            <input type="submit" value="Create" />
+        {% endif %}
 
-      <input type="submit" value="Add It" />
     </form>
+          {% endblock %}
+
   </body>
 </html>
